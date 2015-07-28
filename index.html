@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Lotto-mk2 : 친구가 나눔로또를 구입하려고 하는데, 지금 구입하려는 이 번호가 당첨된 내역이 있을까? 라는 궁금증을 해결하기 위해 작성을 요청한 응용프로그램입니다.">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Lotto-mk2</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/bbonkr/Lotto-mk2">View on GitHub</a>
+
+          <h1 id="project_title">Lotto-mk2</h1>
+          <h2 id="project_tagline">친구가 나눔로또를 구입하려고 하는데, 지금 구입하려는 이 번호가 당첨된 내역이 있을까? 라는 궁금증을 해결하기 위해 작성을 요청한 응용프로그램입니다.</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/bbonkr/Lotto-mk2/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/bbonkr/Lotto-mk2/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="어떤-번호를-살까" class="anchor" href="#%EC%96%B4%EB%96%A4-%EB%B2%88%ED%98%B8%EB%A5%BC-%EC%82%B4%EA%B9%8C" aria-hidden="true"><span class="octicon octicon-link"></span></a>어떤 번호를 살까?</h1>
+
+<p>버전: v1.0.1.0</p>
+
+<p>웹페이지 : <a href="http://bbon.kr/lottomk2">http://bbon.kr/lottomk2</a></p>
+
+<h2>
+<a id="번호확인" class="anchor" href="#%EB%B2%88%ED%98%B8%ED%99%95%EC%9D%B8" aria-hidden="true"><span class="octicon octicon-link"></span></a>번호확인</h2>
+
+<p>구입하려고 하는 번호를 하나씩 입력하면 입력된 번호들이 포함된 1등 당첨번호가 아래쪽 리스트에 출력됩니다.</p>
+
+<p>리스트에 출력되는 항목이 없으면 입력한 번호는 당첨내역에 존재하지 않는 번호 조합입니다.</p>
+
+<p>입력된 번호가 당첨내역 정보를 검색할 때, 보너스 번호를 포함해서 검색하려면 <code>보너스 번호 포함</code> 체크박스를 선택합니다.</p>
+
+<p><img src="./@img/s-001.png" alt="실행화면"></p>
+
+<h2>
+<a id="당첨번호-입력" class="anchor" href="#%EB%8B%B9%EC%B2%A8%EB%B2%88%ED%98%B8-%EC%9E%85%EB%A0%A5" aria-hidden="true"><span class="octicon octicon-link"></span></a>당첨번호 입력</h2>
+
+<p><code>파일메뉴</code> &gt; <code>당첨번호관리</code>를 실행합니다.</p>
+
+<h3>
+<a id="추가" class="anchor" href="#%EC%B6%94%EA%B0%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>추가</h3>
+
+<p>리스트의 아래쪽으로 스크롤바를 움직이면 빈 행이 있습니다.
+빈 행에 회차, 추첨일자, 당첨번호를 입력하고 <code>저장</code> 버튼을 클릭합니다.</p>
+
+<h3>
+<a id="수정" class="anchor" href="#%EC%88%98%EC%A0%95" aria-hidden="true"><span class="octicon octicon-link"></span></a>수정</h3>
+
+<p>수정할 리스트의 항목을 선택하고 각 필드의 값을 변경하고 <code>저장</code> 버튼을 클릭합니다.</p>
+
+<h2>
+<a id="삭제" class="anchor" href="#%EC%82%AD%EC%A0%9C" aria-hidden="true"><span class="octicon octicon-link"></span></a>삭제</h2>
+
+<p>삭제할 리스트의 항목을 선택하고 <code>삭제</code> 버튼을 클릭합니다.</p>
+
+<h2>
+<a id="데이터베이스-파일-가져오기" class="anchor" href="#%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4-%ED%8C%8C%EC%9D%BC-%EA%B0%80%EC%A0%B8%EC%98%A4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>데이터베이스 파일 가져오기</h2>
+
+<p><code>도구</code> &gt; <code>데이터베이스</code> &gt; <code>가져오기</code> 를 실행합니다.</p>
+
+<p>파일을 선택하는 창이 열리고, 가져올 데이터베이스 파일을 선택하고 열기를 클릭합니다.
+파일 복사된 후 검색 버튼을 클릭해서 자료를 잘 가져왔는지 확인합니다.</p>
+
+<h2>
+<a id="데이터베이스-파일-내보내기" class="anchor" href="#%EB%8D%B0%EC%9D%B4%ED%84%B0%EB%B2%A0%EC%9D%B4%EC%8A%A4-%ED%8C%8C%EC%9D%BC-%EB%82%B4%EB%B3%B4%EB%82%B4%EA%B8%B0" aria-hidden="true"><span class="octicon octicon-link"></span></a>데이터베이스 파일 내보내기</h2>
+
+<p><code>도구</code> &gt; <code>데이터베이스</code> &gt; <code>내보내기</code> 를 실행합니다.</p>
+
+<p>파일을 선택하는 창이 열리고, 파일을 저장할 위치로 이동한 후 저장할 파일이름을 입력하고 저장버튼을 클릭합니다.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Lotto-mk2 maintained by <a href="https://github.com/bbonkr">bbonkr</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-64779499-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+
+  </body>
+</html>
