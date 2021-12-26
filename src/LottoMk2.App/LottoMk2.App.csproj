@@ -6,9 +6,6 @@
         <Nullable>enable</Nullable>
         <UseWindowsForms>true</UseWindowsForms>
         <ImplicitUsings>enable</ImplicitUsings>
-        
-    </PropertyGroup>
-    <PropertyGroup>
         <Version>2.0.1</Version>
         <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
         <PublishSingleFile>true</PublishSingleFile>
