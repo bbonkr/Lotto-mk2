@@ -36,7 +36,7 @@ namespace LottoMk2.Services.LottoService
         [JsonPropertyName("drwtNo6")]
         public int Num6 { get; set; }
 
-        [JsonPropertyName("drwtNo4")]
+        [JsonPropertyName("bnusNo")]
         public int NumBonus { get; set; }
 
         /// <summary>

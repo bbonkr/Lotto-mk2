@@ -22,7 +22,11 @@ public class LottoService
         var url = $"{Endporint}{round}";
 
         var request = new HttpRequestMessage(HttpMethod.Get, new Uri(url));
-
+        request.Headers.AcceptEncoding.Clear();
+        request.Headers.AcceptEncoding.Add(new System.Net.Http.Headers.StringWithQualityHeaderValue("utf-8"));
+        request.Headers.Accept.Clear();
+        request.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+        
         try
         {
             var response = await httpClient.SendAsync(request, cancellationToken);
@@ -34,7 +38,8 @@ public class LottoService
                 throw new Exception("Response body is empty");
             }
 
-            var json = await response.Content.ReadAsStringAsync(cancellationToken);
+            var jsonBuffers = await response.Content.ReadAsByteArrayAsync(cancellationToken);
+            var json = Encoding.GetEncoding("iso-8859-1").GetString(jsonBuffers);
             var responseModel = JsonSerializer.Deserialize<LottoServiceResponseModel>(json);
 
             if (responseModel == null)

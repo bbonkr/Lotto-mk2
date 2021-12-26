@@ -1,3 +1,10 @@
+using LottoMk2.App.Features.UpdateData;
+using LottoMk2.App.Views;
+using LottoMk2.Data;
+using LottoMk2.Data.Services;
+using LottoMk2.Services.LottoService;
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace LottoMk2.App;
@@ -25,17 +32,29 @@ static class Program
 
         using (var scope = provider.CreateScope())
         {
-            var mainForm = scope.ServiceProvider.GetRequiredService<Form1>();
-
-            Application.Run(mainForm);
+            using (var mainForm = scope.ServiceProvider.GetRequiredService<Splash>())
+            {
+                Application.Run(mainForm);
+            }            
         }            
     }
 
     public static IServiceCollection ConfigureServices(IServiceCollection services)
     {
-        services.AddScoped<Form1>();
+        services.AddDbContext<AppDbContext>(options =>
+        {
+            options.UseSqlite(DefaultValues.DefaultConnectionString, sqliteOptions =>
+            {
+                sqliteOptions.MigrationsAssembly(typeof(LottoMk2.Data.Sqlite.PlaceHolder).Assembly.FullName);
+            });
+        });
 
         services.AddHttpClient();
+        services.AddScoped<LottoService>();
+        services.AddScoped<LottoDataService>();
+        services.AddScoped<UpdateDataService>();
+
+        services.AddScoped<Splash>();        
 
         services.AddAutoMapper(
             typeof(PlaceHolder).Assembly, 

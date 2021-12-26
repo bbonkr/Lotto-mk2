@@ -12,6 +12,10 @@ public class LottoProfile :Profile
 {
     public LottoProfile()
     {
-         CreateMap<LottoMk2.Services.LottoService.LottoServiceResponseModel, LottoMk2.Entities.Lotto>();
+        CreateMap<LottoMk2.Services.LottoService.LottoServiceResponseModel, LottoMk2.Entities.Lotto>()
+           .ForMember(
+                x => x.LotteryDate,
+                opt => opt.MapFrom(src => DateTime.Parse(src.LotteryDate)
+                ));
     }
 }
