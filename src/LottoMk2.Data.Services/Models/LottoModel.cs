@@ -45,6 +45,6 @@ namespace LottoMk2.Data.Services.Models
         /// <summary>
         /// 1등 당첨금
         /// </summary>
-        public int FirstWinningAmounts { get; set; }
+        public double FirstWinningAmounts { get; set; }
     }
 }

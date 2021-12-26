@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using Microsoft.EntityFrameworkCore;
 using LottoMk2.Data.Services;
 using LottoMk2.App.Features.UpdateData;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace LottoMk2.App.Views;
 
@@ -17,25 +18,13 @@ public partial class Splash : Form
 
         titleLabel.Text = "Lotto Mk. 2";
         messageLabel.Text = "";
-        timer = new System.Windows.Forms.Timer();
+ 
+        progressBar1.Style = ProgressBarStyle.Marquee;
+        progressBar1.MarqueeAnimationSpeed = 50;
 
-        timer.Interval = 1000;
-        timer.Tick += Timer_Tick;
-        timer.Start();
-
-        progressBar1.Minimum = 0;
-        progressBar1.Maximum = 100;
-        progressBar1.Style = ProgressBarStyle.Continuous;
-        
-        Load += Splash_Load;
-
-        
+        Load += Splash_Load;        
     }
 
-    private void Timer_Tick(object? sender, EventArgs e)
-    {
-        progressBar1.Increment(progressBar1.Step);
-    }
 
     private async void Splash_Load(object? sender, EventArgs e)
     {
@@ -55,16 +44,15 @@ public partial class Splash : Form
         catch (Exception ex)
         {
             cancellationTokenSource.Cancel();
-            
+
             Application.Exit();
         }
         finally
         {
-            timer.Stop();
+            this.Close();
         }
     }
 
     private readonly LottoDataService dataService;
-    private readonly System.Windows.Forms.Timer timer;
     private readonly UpdateDataService updateDataService;
 }

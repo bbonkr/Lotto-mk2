@@ -65,7 +65,8 @@ namespace LottoMk2.Data.Services
                 }
             }
 
-            var result = await query.OrderBy(x => x.LotteryDate)
+            var result = await query
+                .OrderByDescending(x => x.LotteryDate)
                 .Select(x => mapper.Map<LottoModel>(x))
                 .ToListAsync(cancellationToken);
 
@@ -174,7 +175,16 @@ namespace LottoMk2.Data.Services
                 return query;
             }
 
-            return query.Where(x => new[] { x.Num1, x.Num2, x.Num3, x.Num4, x.Num5, x.Num6, includesBonusNumber.HasValue && includesBonusNumber.Value ? x.NumBonus : 0 }.Contains(number.Value));
+            //return query.Where(x => new[] { x.Num1, x.Num2, x.Num3, x.Num4, x.Num5, x.Num6, includesBonusNumber.HasValue && includesBonusNumber.Value ? x.NumBonus : 0 }.Contains(number.Value));
+            return query.Where(x =>
+            x.Num1 == number.Value ||
+            x.Num2 == number.Value ||
+            x.Num3 == number.Value ||
+            x.Num4 == number.Value ||
+            x.Num5 == number.Value ||
+            x.Num6 == number.Value ||
+            (includesBonusNumber.HasValue && includesBonusNumber.Value ? x.NumBonus == number.Value : false)
+            );
         }
 
         private readonly AppDbContext context;

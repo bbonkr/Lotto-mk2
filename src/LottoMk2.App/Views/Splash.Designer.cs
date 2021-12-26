@@ -40,6 +40,7 @@ partial class Splash
             this.progressBar1.Location = new System.Drawing.Point(12, 298);
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(754, 34);
+            this.progressBar1.Style = System.Windows.Forms.ProgressBarStyle.Marquee;
             this.progressBar1.TabIndex = 0;
             // 
             // titleLabel
@@ -67,8 +68,7 @@ partial class Splash
             // 
             // Splash
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 25F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(778, 344);
             this.ControlBox = false;
             this.Controls.Add(this.messageLabel);

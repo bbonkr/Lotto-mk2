@@ -32,10 +32,11 @@ static class Program
 
         using (var scope = provider.CreateScope())
         {
-            using (var mainForm = scope.ServiceProvider.GetRequiredService<Splash>())
+            using (var mainForm = scope.ServiceProvider.GetRequiredService<FrmMain>())
             {
+                mainForm.Hide();
                 Application.Run(mainForm);
-            }            
+            }
         }            
     }
 
@@ -49,12 +50,16 @@ static class Program
             });
         });
 
+        services.AddLogging();
         services.AddHttpClient();
         services.AddScoped<LottoService>();
         services.AddScoped<LottoDataService>();
         services.AddScoped<UpdateDataService>();
-
-        services.AddScoped<Splash>();        
+        
+        services.AddScoped<FrmAbout>();
+        services.AddScoped<FrmHistory>();
+        services.AddScoped<FrmMain>();
+        services.AddScoped<Splash>(); 
 
         services.AddAutoMapper(
             typeof(PlaceHolder).Assembly, 

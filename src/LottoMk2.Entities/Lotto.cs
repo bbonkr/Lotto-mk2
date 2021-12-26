@@ -40,5 +40,5 @@ public class Lotto
     /// <summary>
     /// 1등 당첨금
     /// </summary>
-    public int FirstWinningAmounts { get; set; }
+    public double FirstWinningAmounts { get; set; }
 }

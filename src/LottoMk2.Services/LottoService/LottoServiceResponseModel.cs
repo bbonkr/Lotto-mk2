@@ -55,7 +55,7 @@ namespace LottoMk2.Services.LottoService
         /// 1등 당첨금
         /// </summary>
         [JsonPropertyName("firstAccumamnt")]
-        public int FirstWinningAmounts { get; set; }
+        public double FirstWinningAmounts { get; set; }
 
         public bool IsSucceed => ReturnValue != null && ReturnValue.Equals("success", StringComparison.OrdinalIgnoreCase);
 
