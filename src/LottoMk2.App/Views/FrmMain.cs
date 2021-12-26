@@ -31,6 +31,7 @@ namespace LottoMk2.App.Views
 
             this.Load += FrmMain_Load;
 
+            this.당첨번호관리ToolStripMenuItem.Visible = false;
             this.당첨번호관리ToolStripMenuItem.Click += (s, e) =>
             {
                 try
