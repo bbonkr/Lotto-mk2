@@ -35,6 +35,12 @@ static class Program
     {
         services.AddScoped<Form1>();
 
+        services.AddHttpClient();
+
+        services.AddAutoMapper(
+            typeof(PlaceHolder).Assembly, 
+            typeof(LottoMk2.Data.Services.PlaceHolder).Assembly);
+
         return services;
     }
 }

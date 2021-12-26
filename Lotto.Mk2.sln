@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LottoMk2.Entities", "src\Lo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LottoMk2.Data.Sqlite", "src\LottoMk2.Data.Sqlite\LottoMk2.Data.Sqlite.csproj", "{9833E218-C722-42D6-A705-E5EAE7CE142F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LottoMk2.Data.Services", "src\LottoMk2.Data.Services\LottoMk2.Data.Services.csproj", "{0C4EA067-4134-400B-81A1-AF5CC54D7AAB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LottoMk2.Services", "src\LottoMk2.Services\LottoMk2.Services.csproj", "{0833C75B-6CAF-43B8-8951-90627E635333}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +40,13 @@ Global
 		{9833E218-C722-42D6-A705-E5EAE7CE142F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9833E218-C722-42D6-A705-E5EAE7CE142F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9833E218-C722-42D6-A705-E5EAE7CE142F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C4EA067-4134-400B-81A1-AF5CC54D7AAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C4EA067-4134-400B-81A1-AF5CC54D7AAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C4EA067-4134-400B-81A1-AF5CC54D7AAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C4EA067-4134-400B-81A1-AF5CC54D7AAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0833C75B-6CAF-43B8-8951-90627E635333}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0833C75B-6CAF-43B8-8951-90627E635333}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0833C75B-6CAF-43B8-8951-90627E635333}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0833C75B-6CAF-43B8-8951-90627E635333}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
