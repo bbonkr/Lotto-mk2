@@ -1,0 +1,53 @@
+name: "Release"
+
+on:
+  repository_dispatch:
+    types: [upload-assets]
+
+jobs:
+  Release:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest]
+    steps:
+      - name: Context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
+      - name: Verify Upload Url
+        run: echo ${{ github.event.client_payload }}
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 1
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
+      - name: Restore dependencies
+        shell: pwsh
+        run: dotnet restore
+
+      - name: publish win-x64
+        shell: pwsh
+        run: dotnet publish src/LottoMk2.App --output publish/win-x64 --runtime win-x64 --self-contained true --configuration Release /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true
+
+      - name: zip win-x64
+        shell: pwsh
+        run: Compress-Archive -Path publish/win-x64/*.exe -DestinationPath publish/LottoMk2.App.win-x64.zip
+
+      - name: publish win-x86
+        shell: pwsh
+        run: dotnet publish src/LottoMk2.App --output publish/win-x86 --runtime win-x86 --self-contained true --configuration Release /p:PublishSingleFile=true /p:IncludeNativeLibrariesForSelfExtract=true
+
+      - name: zip win-x86
+        shell: pwsh
+        run: Compress-Archive -Path publish/win-x86/*.exe -DestinationPath publish/LottoMk2.App.win-x86.zip
+
+      - name: Upload Assets to Release with a wildcard
+        uses: csexton/release-asset-action@v2
+        with:
+          pattern: "publish/*.zip"
+          github-token: ${{ secrets.GH_TOKEN }}
+          release-url: ${{ github.event.client_payload.url }}
