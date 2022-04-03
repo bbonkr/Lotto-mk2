@@ -1,0 +1,36 @@
+name: Verify PR
+
+on:
+  pull_request:
+
+
+jobs:
+  Build:
+    name: Verify to build
+    runs-on: windows-latest
+    steps:
+      - name: Checkout 
+        uses: actions/checkout@v3
+
+      - name: Setup dotnet
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
+
+      - name: Restore dependencies
+        shell: pwsh
+        run: dotnet restore
+
+      - name: Build
+        shell: pwsh
+        run: dotnet build --no-restore
+
+      # Linux only
+      # - name: Add comment 
+      #   uses: unsplash/comment-on-pr@v1.3.0
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      #     OUTPUT: "✅ This pull request is verified to build."
+      #   with:
+      #     msg: ${{ env.OUTPUT }}
+      #     check_for_duplicate_msg: false        

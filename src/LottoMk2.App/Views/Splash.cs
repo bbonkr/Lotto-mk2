@@ -33,6 +33,7 @@ public partial class Splash : Form
         {
             messageLabel.Text = "Start: database migration";
             // migrations
+            
             await dataService.MigrateAsync(cancellationTokenSource.Token);
             messageLabel.Text = "Completed: database migration";
 

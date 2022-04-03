@@ -8,7 +8,8 @@ jobs:
     name: build and tag
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout 
+        uses: actions/checkout@v3
 
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
@@ -23,6 +24,7 @@ jobs:
         shell: pwsh
         run: dotnet build --no-restore
 
+      # TODO: Change get version action
       - name: package-version
         shell: pwsh
         run: |
@@ -32,8 +34,16 @@ jobs:
           echo "::debug::{version=$version}"
         id: get_package_version
 
+      - name: Check tag
+        uses: bbonkr/git-tag-check-action@v1.0.9
+        id: check_tag
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tag: "v${{ steps.get_package_version.outputs.version }}"
+
       - name: package-version-to-git-tag
         uses: pkgdeps/git-tag-action@v2
+        if: ${{ steps.check_tag.outputs.tag == '' }}
         with:
           github_token: ${{ secrets.GH_TOKEN }}
           github_repo: ${{ github.repository }}
@@ -44,6 +54,7 @@ jobs:
       - name: Release Drafter
         id: release_drafter
         uses: release-drafter/release-drafter@v5
+        if: ${{ steps.check_tag.outputs.tag == '' }}
         with:
           config-name: release-drafter.yml
           version: ${{ steps.get_package_version.outputs.version }}
@@ -51,10 +62,12 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Check Upload Url
+        if: ${{ steps.check_tag.outputs.tag == '' }}
         run: echo "${{ steps.release_drafter.outputs.upload_url }}"
 
       - name: Repository Dispatch
         uses: peter-evans/repository-dispatch@v1
+        if: ${{ steps.check_tag.outputs.tag == '' }}
         with:
           token: ${{ secrets.GH_TOKEN }}
           # repository: bbonkr/Lotto-mk2
