@@ -1,3 +1,6 @@
+using System.Diagnostics;
+using System.Reflection;
+
 using LottoMk2.App.Features.UpdateData;
 using LottoMk2.App.Views;
 using LottoMk2.Data;
@@ -37,14 +40,36 @@ static class Program
                 mainForm.Hide();
                 Application.Run(mainForm);
             }
-        }            
+        }
     }
 
     public static IServiceCollection ConfigureServices(IServiceCollection services)
     {
+        var fileVersionInfo=FileVersionInfo.GetVersionInfo(typeof(Program).Assembly.Location);
+
+        var appDataDirectory = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+
+        var owner = fileVersionInfo.CompanyName;
+        var repo = fileVersionInfo.ProductName;
+        var dataDirectory = "data";
+        var dataFileName = "lotto.db";
+
+        var dataFilePath = Path.Join(appDataDirectory, owner, repo, dataDirectory);
+
+        if (!Directory.Exists(dataFilePath))
+        {
+            Directory.CreateDirectory(dataFilePath);
+        }
+
+        dataFilePath = Path.Join(dataFilePath, dataFileName);
+
+        var connectionString = $"Data Source={dataFilePath}";
+
         services.AddDbContext<AppDbContext>(options =>
         {
-            options.UseSqlite(DefaultValues.DefaultConnectionString, sqliteOptions =>
+            options.UseSqlite(
+                connectionString,
+                sqliteOptions =>
             {
                 sqliteOptions.MigrationsAssembly(typeof(LottoMk2.Data.Sqlite.PlaceHolder).Assembly.FullName);
             });
@@ -52,17 +77,18 @@ static class Program
 
         services.AddLogging();
         services.AddHttpClient();
+
         services.AddScoped<LottoService>();
         services.AddScoped<LottoDataService>();
         services.AddScoped<UpdateDataService>();
-        
+
         services.AddScoped<FrmAbout>();
         services.AddScoped<FrmHistory>();
         services.AddScoped<FrmMain>();
-        services.AddScoped<Splash>(); 
+        services.AddScoped<Splash>();
 
         services.AddAutoMapper(
-            typeof(PlaceHolder).Assembly, 
+            typeof(PlaceHolder).Assembly,
             typeof(LottoMk2.Data.Services.PlaceHolder).Assembly);
 
         return services;

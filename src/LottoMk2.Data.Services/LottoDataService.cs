@@ -22,9 +22,9 @@ namespace LottoMk2.Data.Services
             this.mapper = mapper;
         }
 
-        public Task MigrateAsync(CancellationToken cancellationToken = default)
+        public async Task MigrateAsync(CancellationToken cancellationToken = default)
         {
-            return context.Database.MigrateAsync(cancellationToken);
+            await context.Database.MigrateAsync(cancellationToken);
         }
 
         public async Task<IEnumerable<LottoModel>> GetAllAsync(
@@ -91,7 +91,7 @@ namespace LottoMk2.Data.Services
 
         public async Task<int?> GetLatestRoundAsync(CancellationToken cancellationToken = default)
         {
-            int? round = await context.LottoItems.OrderByDescending(x => x.Round)
+            int? round = await context.LottoItems!.OrderByDescending(x => x.Round)
                 .Select(x => x.Round)
                 .FirstOrDefaultAsync(cancellationToken);
 
@@ -119,7 +119,7 @@ namespace LottoMk2.Data.Services
 
         public async Task<LottoModel> UpdateAsync(LottoModel model, CancellationToken cancellationToken = default)
         {
-            var updateCandidate = await context.LottoItems
+            var updateCandidate = await context.LottoItems!
                .Where(x => x.Round == model.Round)
                .FirstOrDefaultAsync(cancellationToken);
 
@@ -149,7 +149,7 @@ namespace LottoMk2.Data.Services
 
         public async Task<bool> DeleteAsync(LottoModel model, CancellationToken cancellationToken = default)
         {
-            var removeCandidate = await context.LottoItems
+            var removeCandidate = await context.LottoItems!
                 .Where(x => x.Round == model.Round)
                 .FirstOrDefaultAsync(cancellationToken);
 

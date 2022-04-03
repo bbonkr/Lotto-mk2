@@ -39,6 +39,12 @@ namespace LottoMk2
             };
 
             this.btnClose.Click += (s, e) => { this.DialogResult = DialogResult.Cancel; };
+
+            var version = this.GetType().Assembly.GetName().Version?.ToString();
+            if (!string.IsNullOrEmpty(version))
+            {
+                this.Text = $"정보 v{version}";
+            }
         }
 
         private void GotoUrl(string url)
