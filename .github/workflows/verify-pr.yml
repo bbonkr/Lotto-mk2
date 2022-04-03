@@ -25,11 +25,12 @@ jobs:
         shell: pwsh
         run: dotnet build --no-restore
 
-      - name: Add comment 
-        uses: unsplash/comment-on-pr@v1.3.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
-          OUTPUT: "✅ This pull request is verified to build."
-        with:
-          msg: ${{ env.OUTPUT }}
-          check_for_duplicate_msg: false        
+      # Linux only
+      # - name: Add comment 
+      #   uses: unsplash/comment-on-pr@v1.3.0
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      #     OUTPUT: "✅ This pull request is verified to build."
+      #   with:
+      #     msg: ${{ env.OUTPUT }}
+      #     check_for_duplicate_msg: false        
