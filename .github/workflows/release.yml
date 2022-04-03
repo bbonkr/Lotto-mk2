@@ -11,20 +11,25 @@ jobs:
       matrix:
         os: [windows-latest]
     steps:
+
       - name: Context
         env:
           GITHUB_CONTEXT: ${{ toJson(github) }}
         run: echo "$GITHUB_CONTEXT"
+
       - name: Verify Upload Url
         run: echo ${{ github.event.client_payload }}
+
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 1
+
       - name: Setup dotnet
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: 6.0.x
+
       - name: Restore dependencies
         shell: pwsh
         run: dotnet restore
