@@ -34,6 +34,7 @@
             this.lnkToTwitter = new System.Windows.Forms.LinkLabel();
             this.lnkToFacebook = new System.Windows.Forms.LinkLabel();
             this.lnkToGitHub = new System.Windows.Forms.LinkLabel();
+            this.lnkToGitHubRepo = new System.Windows.Forms.LinkLabel();
             this.SuspendLayout();
             // 
             // btnClose
@@ -113,11 +114,25 @@
             this.lnkToGitHub.Text = "GitHub: bbonkr";
             this.lnkToGitHub.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // lnkToGitHubRepo
+            // 
+            this.lnkToGitHubRepo.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lnkToGitHubRepo.Location = new System.Drawing.Point(91, 363);
+            this.lnkToGitHubRepo.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lnkToGitHubRepo.Name = "lnkToGitHubRepo";
+            this.lnkToGitHubRepo.Size = new System.Drawing.Size(297, 48);
+            this.lnkToGitHubRepo.TabIndex = 5;
+            this.lnkToGitHubRepo.TabStop = true;
+            this.lnkToGitHubRepo.Text = "GitHub: bbonkr/Lotto-mk2";
+            this.lnkToGitHubRepo.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // FrmAbout
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(406, 519);
             this.ControlBox = false;
+            this.Controls.Add(this.lnkToGitHubRepo);
             this.Controls.Add(this.lnkToGitHub);
             this.Controls.Add(this.lnkToFacebook);
             this.Controls.Add(this.lnkToTwitter);
@@ -140,5 +155,6 @@
         private System.Windows.Forms.LinkLabel lnkToTwitter;
         private System.Windows.Forms.LinkLabel lnkToFacebook;
         private System.Windows.Forms.LinkLabel lnkToGitHub;
+        private LinkLabel lnkToGitHubRepo;
     }
 }
