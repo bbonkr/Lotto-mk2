@@ -29,7 +29,7 @@ namespace LottoMk2
 
             InitializeComponent();
             this.lblMessage.Text = String.Empty;
-            this.Load += (s, e) =>
+            this.Load += async (s, e) =>
             {
                 try
                 {
@@ -64,30 +64,17 @@ namespace LottoMk2
                         col.HeaderCell.Style.Alignment = DataGridViewContentAlignment.MiddleCenter;
                     }
 
-                    this.Retrieve();
-
-                    // Excel 가져오기 가능여부 체크
-                    //try
-                    //{
-                    //    Tools.Office.ExcelService excel = new Tools.Office.ExcelService();
-                    //    excel.LoadData();
-                    //}
-                    //catch (Exception ex)
-                    //{
-                    //    int k = 0;
-                    //}
+                    await this.Retrieve();
                 }
                 catch (Exception ex)
                 {
-                   this.logger.LogError(ex, ex.Message);
+                    this.logger.LogError(ex, ex.Message);
                 }
             };
 
             this._worker.WorkerSupportsCancellation = true;
             this._worker.WorkerReportsProgress = true;
-            //this._worker.DoWork += _worker_DoWork;
-            //this._worker.ProgressChanged += _worker_ProgressChanged;
-            //this._worker.RunWorkerCompleted += _worker_RunWorkerCompleted;
+
             this.btnRetrieve.Click += async (s, e) =>
             {
                 try
@@ -165,13 +152,9 @@ namespace LottoMk2
                             if (hasChanged)
                             {
                                 var affectedCount = await dataService.SaveAsync();
-                                //if (affectedCount == 0)
-                                //{
-                                //    logger.LogInformation(string.Format("Could not delete. (id: {0})", item.Round));
-                                //}
 
-                                //MessageBox.Show("Deleted.", "Notification");
                                 await this.Retrieve();
+
                                 this.lblMessage.Text = "삭제되었습니다.";
                             }
                         }
@@ -182,78 +165,6 @@ namespace LottoMk2
                     this.logger.LogError(ex, ex.Message);
                 }
             };
-
-            //this.ImportFromExcel.Click += (s, e) =>
-            //{
-            //    try
-            //    {
-            //        //this.ImportData();
-            //        if (!this._worker.IsBusy)
-            //        {
-            //            OpenFileDialog dialog = new OpenFileDialog();
-            //            dialog.Multiselect = false;
-            //            dialog.AutoUpgradeEnabled = true;
-            //            dialog.Filter = "엑셀 통합문서 (*.xlsx)|*.xlsx|엑셀 호환문서 (*.xls)|*.xls|전체파일(*.*)|*.*";
-
-            //            if (DialogResult.OK == dialog.ShowDialog())
-            //            {
-            //                this.btnRetrieve.Enabled = false;
-            //                this.btnDelete.Enabled = false;
-            //                this.btnSave.Enabled = false;
-            //                this.dataGridViewDx1.Enabled = false;
-
-            //                this.Cursor = Cursors.WaitCursor;
-
-            //                this._worker.RunWorkerAsync(dialog.FileName);
-            //            }
-            //        }
-            //        else
-            //        {
-            //        }
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        this.logger.LogError(ex, ex.Message);
-            //    }
-            //};
-
-            //this.CopySampleExcelFile.Click += (s, e) =>
-            //{
-            //    try
-            //    {
-            //        this.GetSampleData();
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        this.logger.LogError(ex, ex.Message);
-            //    }
-            //};
-
-            //this.CopyDatabase.Click += (s, e) =>
-            //{
-            //    // 데이터베이스 파일을 가져온다.
-            //    try
-            //    {
-            //        this.CopyDatabaseFile();
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        this.logger.LogError(ex, ex.Message);
-            //    }
-            //};
-
-            //this.ExportDatabase.Click += (s, e) =>
-            //{
-            //    // 데이터베이스 파일을 내보낸다.
-            //    try
-            //    {
-            //        this.ExportDatabaseFile();
-            //    }
-            //    catch (Exception ex)
-            //    {
-            //        this.logger.LogError(ex, ex.Message);
-            //    }
-            //};
 
             this.닫기XToolStripMenuItem.Click += (s, e) =>
             {
@@ -291,242 +202,21 @@ namespace LottoMk2
 
         private async Task Retrieve()
         {
-            
-            var dataSource=await dataService.GetAllAsync(null, null, null, null, null);
-            this.dataGridViewDx1.DataBind(dataSource, String.Empty);
+            try
+            {
+                Cursor = Cursors.WaitCursor;
 
-            this.lblMessage.Text = String.Format("{0:n0} 건이 조회되었습니다.", dataSource.Count());
+                var dataSource = await dataService.GetAllAsync(null, null, null, null, null);
+                this.dataGridViewDx1.DataBind(dataSource, String.Empty);
+
+                this.lblMessage.Text = String.Format("{0:n0} 건이 조회되었습니다.", dataSource.Count());
+            }
+            finally
+            {
+                Cursor = Cursors.Default;
+            }
         }
 
-        //private void ImportData(BackgroundWorker worker, DoWorkEventArgs e)
-        //{
-        //    string strFilename = String.Format("{0}", e.Argument);
-
-        //    int nFailCount = 0;
-        //    int nSaveCount = 0;
-
-        //    Tools.Office.ExcelService excel = new Tools.Office.ExcelService();
-        //    excel.FilePath = strFilename;
-        //    excel.HeaderRowIndex = 0;
-        //    excel.DataStartRowIndex = 1;
-        //    DataTable dataTable = null;
-        //    if (!e.Cancel)
-        //    {
-        //        worker.ReportProgress(0, "자료를 로드합니다.");
-        //        dataTable = excel.LoadData();
-        //        worker.ReportProgress(0, "자료를 로드했습니다.");
-        //    }
-
-        //    List<Lotto> dataSource = new List<Lotto>();
-        //    if (dataTable != null)
-        //    {
-        //        dataSource = dataTable.Select().Select(r => new Lotto()
-        //          {
-        //              Id = Convert.ToInt32(r["회차"]),
-        //              Dt = String.Format("{0}", r["추첨일"]).Replace(".", "-"),
-        //              Num1 = Convert.ToInt32(r["1"]),
-        //              Num2 = Convert.ToInt32(r["2"]),
-        //              Num3 = Convert.ToInt32(r["3"]),
-        //              Num4 = Convert.ToInt32(r["4"]),
-        //              Num5 = Convert.ToInt32(r["5"]),
-        //              Num6 = Convert.ToInt32(r["6"]),
-        //              NumBonus = Convert.ToInt32(r["보너스"])
-        //          }).ToList();
-
-        //        DatabaseHelper db = new DatabaseHelper();
-        //        db.DeleteAll();
-
-        //        foreach (var item in dataSource)
-        //        {
-        //            if (!e.Cancel)
-        //            {
-        //                if (!db.Save(item)) { nFailCount++; }
-        //                nSaveCount++;
-        //                string strLabel = "{0:f2} % ({1:n0}/{2:n0}) 진행중 ...";
-        //                if (nSaveCount == dataSource.Count)
-        //                {
-        //                    strLabel = "{0:f2} % ({1:n0}/{2:n0}) 완료";
-        //                }
-        //                worker.ReportProgress((nSaveCount) / dataSource.Count, String.Format(strLabel, ((nSaveCount * 1.0) / dataSource.Count) * 100, nSaveCount, dataSource.Count));
-        //            }
-        //        }
-        //    }
-        //}
-
-        /// <summary>
-        /// 가져오기 샘플 자료
-        /// </summary>
-        //private void GetSampleData(string filePath, bool openFileExplorer)
-        //{
-        //    if (String.IsNullOrEmpty(filePath)) { throw new ArgumentException("The path is not allow empty string."); }
-        //    string filePathDirectory = String.Empty;
-        //    filePathDirectory = Path.GetDirectoryName(filePath);
-
-        //    string[] resourceNames = ResourceHelper.GetResourceNames();
-        //    string dataFileName = resourceNames.Where(name => name.EndsWith("data.xlsx")).FirstOrDefault();
-        //    using (Stream stream = ResourceHelper.LoadContainResourceFileStream(dataFileName))
-        //    {
-        //        int nLength = (int)stream.Length;
-        //        byte[] buffer = new byte[nLength];
-        //        using (BinaryReader reader = new BinaryReader(stream))
-        //        {
-        //            buffer = reader.ReadBytes(nLength);
-        //        }
-
-        //        try
-        //        {
-        //            File.WriteAllBytes(filePath, buffer);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            Logger.Error(this.GetType(), ex);
-        //            this.lblMessage.Text = String.Format("[ERROR]: {0}", ex.Message);
-        //        }
-        //    }
-
-        //    if (openFileExplorer)
-        //    {
-        //        Process.Start(filePathDirectory);
-        //    }
-        //}
-
-        //private void GetSampleData(string filePath)
-        //{
-        //    this.GetSampleData(filePath, true);
-        //}
-
-        //private void GetSampleData()
-        //{
-        //    SaveFileDialog dialaog = new SaveFileDialog();
-        //    dialaog.AutoUpgradeEnabled = true;
-        //    dialaog.DefaultExt = ".xlsx";
-        //    dialaog.FileName = "Sample";
-        //    dialaog.Filter = "엑셀 통합문서 (*.xlsx)|*.xlsx";
-        //    if (DialogResult.OK == dialaog.ShowDialog())
-        //    {
-        //        this.GetSampleData(dialaog.FileName, true);
-        //    }
-        //}
-
-        //private void CopyDatabaseFile()
-        //{
-        //    string strDatabaseFilePath = this._db.GetDbFilePath();
-        //    string strDatabaseFileDirectory = Path.GetDirectoryName(strDatabaseFilePath);
-
-        //    OpenFileDialog dialog = new OpenFileDialog();
-        //    dialog.AutoUpgradeEnabled = true;
-        //    dialog.Filter = "데이터베이스 파일(*.db)|*.db|모든파일(*.*)|*.*";
-        //    dialog.Multiselect = false;
-        //    dialog.DefaultExt = ".db";
-        //    if (DialogResult.OK == dialog.ShowDialog())
-        //    {
-        //        // 데이터베이스 파일 유효성 검사
-        //        if (!this._db.TestConnection(dialog.FileName))
-        //        {
-        //            this.lblMessage.Text = String.Format("[ERROR]: {0}", "데이터 베이스 파일이 유효하지 않습니다.");
-        //        }
-        //        else
-        //        {
-        //            try
-        //            {
-        //                // 기존 파일을 백업한다.
-        //                File.Copy(strDatabaseFilePath, Path.Combine(strDatabaseFileDirectory, String.Format("backup_{0:yyyyMMddHHmmsss}.db", DateTime.Now)));
-
-        //                try
-        //                {
-        //                    // 파일을 복사한다.
-        //                    File.Copy(dialog.FileName, strDatabaseFilePath, true);
-
-        //                    this.lblMessage.Text = "가져오기 완료";
-        //                }
-        //                catch (Exception ex)
-        //                {
-        //                    logger.LogError(ex, ex.Message);
-        //                    this.lblMessage.Text = String.Format("[ERROR]: {0}", ex.Message);
-        //                }
-        //            }
-        //            catch (Exception ex)
-        //            {
-        //                logger.LogError(ex, ex.Message);
-        //                this.lblMessage.Text = String.Format("[ERROR]: {0}", ex.Message);
-        //            }
-        //        }
-        //    }
-        //    else
-        //    {
-        //        this.lblMessage.Text = "가져오기 취소";
-        //    }
-        //}
-
-        //private void ExportDatabaseFile()
-        //{
-        //    string strDatabaseFilePath = this._db.GetDbFilePath();
-        //    SaveFileDialog dialog = new SaveFileDialog();
-        //    dialog.AutoUpgradeEnabled = true;
-        //    dialog.DefaultExt = ".db";
-        //    dialog.Filter = "데이터베이스 파일(*.db)|*.db";
-        //    if (DialogResult.OK == dialog.ShowDialog())
-        //    {
-        //        try
-        //        {
-        //            File.Copy(strDatabaseFilePath, dialog.FileName, true);
-
-        //            this.lblMessage.Text = String.Format("내보내기 완료! {0}", dialog.FileName);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            logger.LogError(ex, ex.Message);
-        //            this.lblMessage.Text = String.Format("[ERROR]: {0}", ex.Message);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        this.lblMessage.Text = "내보내기 취소";
-        //    }
-        //}
-
-        //private void _worker_DoWork(object sender, DoWorkEventArgs e)
-        //{
-        //    this.ImportData((BackgroundWorker)sender, e);
-        //}
-
-        //private void _worker_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        //{
-        //    //this.lblReportProgress.Text = String.Format("{0}", e.UserState);
-
-        //    this.lblMessage.Text = String.Format("{0}", e.UserState);
-        //}
-
-        //private void _worker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
-        //{
-        //    try
-        //    {
-        //        if (e.Error != null)
-        //        {
-        //            this.lblMessage.Text = String.Format("[Error]: {0}", e.Error.Message);
-        //        }
-        //        else if (e.Cancelled)
-        //        {
-        //            this.lblMessage.Text = "가져오기가 취소되었습니다.";
-        //        }
-        //        else
-        //        {
-        //            //this.lblReportProgress.Text = "완료 ";
-
-        //            this.Retrieve();
-        //        }
-        //    }
-        //    finally
-        //    {
-        //        this.btnRetrieve.Enabled = true;
-        //        this.btnDelete.Enabled = true;
-        //        this.btnSave.Enabled = true;
-        //        this.dataGridViewDx1.Enabled = true;
-        //        this.Cursor = Cursors.Default;
-        //    }
-        //}
-
-        //private DatabaseHelper _db = new DatabaseHelper();
         private BindingSource _source = new BindingSource();
         private BackgroundWorker _worker = new BackgroundWorker();
 
