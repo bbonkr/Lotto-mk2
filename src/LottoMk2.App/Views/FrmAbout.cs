@@ -38,6 +38,12 @@ namespace LottoMk2
                 this.GotoUrl(url);
             };
 
+            lnkToGitHubRepo.Click += (s, e) =>
+            {
+                string url = "https://github.com/bbonkr/Lotto-mk2";
+                this.GotoUrl(url);
+            };
+
             this.btnClose.Click += (s, e) => { this.DialogResult = DialogResult.Cancel; };
 
             var version = this.GetType().Assembly.GetName().Version?.ToString();
@@ -49,7 +55,12 @@ namespace LottoMk2
 
         private void GotoUrl(string url)
         {
-            Process.Start(url);
+            ProcessStartInfo processStartInfo = new(url)
+            {
+                UseShellExecute = true,
+            };
+
+            Process.Start(processStartInfo);
         }
     }
 }
