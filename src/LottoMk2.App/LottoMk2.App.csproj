@@ -6,12 +6,13 @@
         <Nullable>enable</Nullable>
         <UseWindowsForms>true</UseWindowsForms>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Version>2.1.0</Version>
+        <Version>2.1.1</Version>
         <IncludeAllContentForSelfExtract>true</IncludeAllContentForSelfExtract>
         <PublishSingleFile>true</PublishSingleFile>
         <Company>bbonkr</Company>
         <Product>Lotto-mk2</Product>
         <Authors>bbonkr</Authors>
+        <PlatformTarget>AnyCPU</PlatformTarget>
     </PropertyGroup>
 
     <ItemGroup>
